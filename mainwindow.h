@@ -7,6 +7,7 @@
 #include <QMimeData>
 #include "player.h"
 #include "global.h"
+#include "game.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,8 +23,6 @@ public:
     
 private:
     Ui::MainWindow *ui;
-    Player p1;
-    Player p2;
     ChessPiece * placeHolders[3];
 
 public slots:

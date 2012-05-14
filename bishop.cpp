@@ -7,8 +7,6 @@ Bishop::Bishop(Colour c) : ChessPiece(0,0)
         this->loadImage(":images/black_bishop_s.png");
     else
         this->loadImage(":images/white_bishop_s.png");
-
-    this->setAcceptDrops(false);
 }
 
 std::vector<Position> * Bishop::getAvailableMoves()

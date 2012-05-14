@@ -9,13 +9,6 @@
 #include <QApplication>
 #include "global.h"
 
-struct Position {
-    int row;
-    int column;
-};
-
-enum Colour { BLACK, WHITE };
-
 class ChessPiece : public QLabel
 {
     Q_OBJECT
@@ -43,6 +36,12 @@ protected:
     void dropEvent(QDropEvent*);
     void dragMoveEvent(QDragMoveEvent*);
     void dragEnterEvent(QDragEnterEvent*);
+};
+
+class PlaceHolder : public ChessPiece
+{
+public:
+    PlaceHolder() : ChessPiece(0,0) {}
 };
 
 #endif // CHESSPIECE_H

@@ -7,7 +7,6 @@ King::King(Colour c) : ChessPiece(0,0)
         this->loadImage(":images/black_king_s.png");
     else
         this->loadImage(":images/white_king_s.png");
-    this->setAcceptDrops(false);
 }
 
 std::vector<Position> * King::getAvailableMoves()
