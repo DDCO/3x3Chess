@@ -19,6 +19,7 @@ public:
         this->setAcceptDrops(true);
         pos.row = 0;
         pos.column = 0;
+        this->setFixedSize(110,110);
     }
     bool loadImage(std::string);
     virtual std::vector<Position> * getAvailableMoves() {return &this->availableMoves;}
@@ -41,7 +42,7 @@ protected:
 class PlaceHolder : public ChessPiece
 {
 public:
-    PlaceHolder() : ChessPiece(0,0) {setFixedSize(110,110);}
+    PlaceHolder() : ChessPiece(0,0) {}
 };
 
 #endif // CHESSPIECE_H

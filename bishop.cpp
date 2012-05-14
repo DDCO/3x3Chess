@@ -17,7 +17,7 @@ std::vector<Position> * Bishop::getAvailableMoves()
 
 int Bishop::movePiece(Position newpos)
 {
-    if( (newpos.row != this->pos.row) && (newpos.column != this->pos.column) )
+    if( (newpos.row != this->pos.row) || (newpos.column != this->pos.column) )
     {
         PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget());
         Game * game = Game::getInstance();

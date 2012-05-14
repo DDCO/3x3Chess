@@ -6,7 +6,6 @@ bool ChessPiece::loadImage(std::string filename)
     if(!this->img.load(filename.c_str()))
         return false;
     this->setPixmap(QPixmap::fromImage(this->img));
-    this->setGeometry(0,0,80,78);
     return true;
 }
 

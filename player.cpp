@@ -27,8 +27,5 @@ bool Player::isCheckMate()
 
 Player::~Player()
 {
-    delete this->chessPiecesArray[0];
-    delete this->chessPiecesArray[1];
-    delete this->chessPiecesArray[2];
     Player::playerCount = 0;
 }

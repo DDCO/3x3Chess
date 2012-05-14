@@ -39,9 +39,15 @@ void Game::removePiece(Position pos)
     ChessPiece * piece = (ChessPiece*)pGridLayout->itemAtPosition(pos.row,pos.column)->widget();
     pGridLayout->removeWidget(piece);
     delete piece;
-    piece = NULL;
 
     pGridLayout->addWidget(ph,pos.row,pos.column,Qt::AlignCenter);
+}
+
+Player * Game::getPlayerByTurn()
+{
+    if(this->turnCount % 2)
+        return p1;
+    return p2;
 }
 
 void Game::close()
@@ -57,16 +63,12 @@ Game::~Game()
         {
             ChessPiece * piece = (ChessPiece*)pGridLayout->itemAtPosition(row,col)->widget();
             pGridLayout->removeWidget(piece);
-            PlaceHolder * ph = dynamic_cast<PlaceHolder*>(piece);
-            if(ph)
-                delete ph;
+            delete piece;
         }
     }
 
-    if(this->p1)
-        delete p1;
-    if(this->p2)
-        delete p2;
+    delete p1;
+    delete p2;
 
     Game::instance = NULL;
 }

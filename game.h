@@ -18,6 +18,7 @@ private:
     Game();
     ~Game();
     static Game * instance;
+    Player * getPlayerByTurn();
 };
 
 #endif // GAME_H
