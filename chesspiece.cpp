@@ -23,9 +23,11 @@ void ChessPiece::mousePressEvent(QMouseEvent *event)
 
 void ChessPiece::mouseMoveEvent(QMouseEvent *event)
 {
-    if (!(event->buttons() & Qt::LeftButton))
+    if(!(event->buttons() & Qt::LeftButton))
         return;
-    if ((event->pos() - dragStartPosition).manhattanLength() < QApplication::startDragDistance())
+    if((event->pos() - dragStartPosition).manhattanLength() < QApplication::startDragDistance())
+        return;
+    if(!this->enableDrag)
         return;
 
     QDrag * drag = new QDrag(this);
@@ -67,8 +69,6 @@ void ChessPiece::dropEvent(QDropEvent *event)
 
     //move piece to new position(the position of the placeholder)
     p->movePiece(this->pos);
-
-    //delete event->mimeData();
 }
 
 void ChessPiece::dragMoveEvent(QDragMoveEvent *event)

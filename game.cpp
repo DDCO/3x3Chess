@@ -5,8 +5,12 @@ Game * Game::instance = NULL;
 Game::Game()
 {
     this->turnCount = 0;
-    this->p1 = NULL;
-    this->p2 = NULL;
+
+    //Create new players
+    this->p1 = new Player();
+    this->p2 = new Player();
+
+    this->p1->enableDrag(true);
 }
 
 Game * Game::getInstance()
@@ -29,7 +33,11 @@ void Game::swapPieces(Position pos1, Position pos2)
     pGridLayout->addWidget(piece1,pos2.row,pos2.column,Qt::AlignCenter);
     pGridLayout->addWidget(piece2,pos1.row,pos1.column,Qt::AlignCenter);
 
+    Player * player = this->getPlayerByTurn();
+    player->enableDrag(false);
     this->turnCount++;
+    player = this->getPlayerByTurn();
+    player->enableDrag(true);
 }
 
 void Game::removePiece(Position pos)
@@ -45,7 +53,7 @@ void Game::removePiece(Position pos)
 
 Player * Game::getPlayerByTurn()
 {
-    if(this->turnCount % 2)
+    if((this->turnCount % 2) == 0)
         return p1;
     return p2;
 }

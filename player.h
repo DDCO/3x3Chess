@@ -15,6 +15,7 @@ public:
     bool isCheck();
     bool isCheckMate();
     static int playerCount;
+    void enableDrag(bool);
 };
 
 #endif // PLAYER_H

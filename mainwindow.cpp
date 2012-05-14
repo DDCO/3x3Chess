@@ -28,10 +28,6 @@ void MainWindow::slotNewAction()
         game = Game::getInstance();
     }
 
-    //Create new players
-    game->p1 = new Player();
-    game->p2 = new Player();
-
     //Add player two pieces
     for(int i = 0; i < 3; i++)
     {
