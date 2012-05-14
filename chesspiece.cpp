@@ -33,7 +33,7 @@ void ChessPiece::mouseMoveEvent(QMouseEvent *event)
     QMimeData * mimeData = new QMimeData();
 
     char text[10];
-    sprintf_s(text,"%d,%d",this->pos.row,this->pos.column);
+    sprintf(text,"%d,%d",this->pos.row,this->pos.column);
 
     mimeData->setText(text);
 
