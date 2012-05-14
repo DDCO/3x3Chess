@@ -68,6 +68,8 @@ void ChessPiece::dropEvent(QDropEvent *event)
 
     //move piece to new position(the position of the placeholder)
     p->movePiece(this->pos);
+
+    //delete event->mimeData();
 }
 
 void ChessPiece::dragMoveEvent(QDragMoveEvent *event)

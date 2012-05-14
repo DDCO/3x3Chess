@@ -23,7 +23,6 @@ public:
     
 private:
     Ui::MainWindow *ui;
-    ChessPiece * placeHolders[3];
 
 public slots:
     void slotNewAction();

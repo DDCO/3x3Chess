@@ -10,6 +10,7 @@ class Player
 {
 public:
     Player();
+    ~Player();
     ChessPiece * chessPiecesArray[3];
     bool isCheck();
     bool isCheckMate();

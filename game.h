@@ -11,10 +11,12 @@ public:
     Player * p1;
     Player * p2;
     int turnCount;
-    void swapPieces();
-    void removePiece();
+    void swapPieces(Position, Position);
+    void removePiece(Position);
+    void close();
 private:
     Game();
+    ~Game();
     static Game * instance;
 };
 

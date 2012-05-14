@@ -5,6 +5,8 @@ Game * Game::instance = NULL;
 Game::Game()
 {
     this->turnCount = 0;
+    this->p1 = NULL;
+    this->p2 = NULL;
 }
 
 Game * Game::getInstance()
@@ -14,12 +16,57 @@ Game * Game::getInstance()
     return Game::instance;
 }
 
-void Game::swapPieces()
+void Game::swapPieces(Position pos1, Position pos2)
 {
+    ChessPiece * piece1 = (ChessPiece*)pGridLayout->itemAtPosition(pos1.row,pos1.column)->widget();
+    ChessPiece * piece2 = (ChessPiece*)pGridLayout->itemAtPosition(pos2.row,pos2.column)->widget();
 
+    //Update position in object
+    piece1->setPosition(pos2.row,pos2.column);
+    piece2->setPosition(pos1.row,pos1.column);
+
+    //swap objects in gridlayout
+    pGridLayout->addWidget(piece1,pos2.row,pos2.column,Qt::AlignCenter);
+    pGridLayout->addWidget(piece2,pos1.row,pos1.column,Qt::AlignCenter);
+
+    this->turnCount++;
 }
 
-void Game::removePiece()
+void Game::removePiece(Position pos)
 {
+    PlaceHolder * ph = new PlaceHolder();
 
+    ChessPiece * piece = (ChessPiece*)pGridLayout->itemAtPosition(pos.row,pos.column)->widget();
+    pGridLayout->removeWidget(piece);
+    delete piece;
+    piece = NULL;
+
+    pGridLayout->addWidget(ph,pos.row,pos.column,Qt::AlignCenter);
+}
+
+void Game::close()
+{
+    delete Game::instance;
+}
+
+Game::~Game()
+{
+    for(int col = 0; col < 3; col++)
+    {
+        for(int row = 0; row < 3; row++)
+        {
+            ChessPiece * piece = (ChessPiece*)pGridLayout->itemAtPosition(row,col)->widget();
+            pGridLayout->removeWidget(piece);
+            PlaceHolder * ph = dynamic_cast<PlaceHolder*>(piece);
+            if(ph)
+                delete ph;
+        }
+    }
+
+    if(this->p1)
+        delete p1;
+    if(this->p2)
+        delete p2;
+
+    Game::instance = NULL;
 }

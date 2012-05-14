@@ -41,7 +41,7 @@ protected:
 class PlaceHolder : public ChessPiece
 {
 public:
-    PlaceHolder() : ChessPiece(0,0) {}
+    PlaceHolder() : ChessPiece(0,0) {setFixedSize(110,110);}
 };
 
 #endif // CHESSPIECE_H
