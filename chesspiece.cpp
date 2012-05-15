@@ -6,7 +6,6 @@ bool ChessPiece::loadImage(std::string filename)
     if(!this->img.load(filename.c_str()))
         return false;
     this->setPixmap(QPixmap::fromImage(this->img));
-    this->setGeometry(0,0,80,78);
     return true;
 }
 
@@ -24,16 +23,18 @@ void ChessPiece::mousePressEvent(QMouseEvent *event)
 
 void ChessPiece::mouseMoveEvent(QMouseEvent *event)
 {
-    if (!(event->buttons() & Qt::LeftButton))
+    if(!(event->buttons() & Qt::LeftButton))
         return;
-    if ((event->pos() - dragStartPosition).manhattanLength() < QApplication::startDragDistance())
+    if((event->pos() - dragStartPosition).manhattanLength() < QApplication::startDragDistance())
+        return;
+    if(!this->enableDrag)
         return;
 
     QDrag * drag = new QDrag(this);
     QMimeData * mimeData = new QMimeData();
 
     char text[10];
-    sprintf_s(text,"%d,%d",this->pos.row,this->pos.column);
+    sprintf(text,"%d,%d",this->pos.row,this->pos.column);
 
     mimeData->setText(text);
 

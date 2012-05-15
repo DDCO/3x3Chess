@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     bishop.cpp \
     pawn.cpp \
     king.cpp \
-    global.cpp
+    global.cpp \
+    game.cpp
 
 HEADERS  += mainwindow.h \
     chesspiece.h \
@@ -25,7 +26,8 @@ HEADERS  += mainwindow.h \
     bishop.h \
     pawn.h \
     king.h \
-    global.h
+    global.h \
+    game.h
 
 FORMS    += mainwindow.ui
 

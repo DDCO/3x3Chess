@@ -15,6 +15,12 @@ Player::Player()
     this->chessPiecesArray[2] = (ChessPiece*)new King(c);
 }
 
+void Player::enableDrag(bool enabled)
+{
+    for(int i = 0; i < 3; i++)
+        this->chessPiecesArray[i]->enableDrag = enabled;
+}
+
 bool Player::isCheck()
 {
     return false;
@@ -23,4 +29,9 @@ bool Player::isCheck()
 bool Player::isCheckMate()
 {
     return false;
+}
+
+Player::~Player()
+{
+    Player::playerCount = 0;
 }

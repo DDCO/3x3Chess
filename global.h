@@ -5,4 +5,11 @@
 
 extern QGridLayout * pGridLayout;
 
+struct Position {
+    int row;
+    int column;
+};
+
+enum Colour { BLACK, WHITE };
+
 #endif // GLOBAL_H
