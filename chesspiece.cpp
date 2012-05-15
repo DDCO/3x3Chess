@@ -30,16 +30,19 @@ void ChessPiece::mouseMoveEvent(QMouseEvent *event)
     if(!this->enableDrag)
         return;
 
-    QDrag * drag = new QDrag(this);
-    QMimeData * mimeData = new QMimeData();
+    if(!this->drag)
+    {
+        this->drag = new QDrag(this); // Most be this
+        this->mimeData = new QMimeData(); // Must be this
 
-    char text[10];
-    sprintf(text,"%d,%d",this->pos.row,this->pos.column);
+        char text[10];
+        sprintf(text,"%d,%d",this->pos.row,this->pos.column);
 
-    mimeData->setText(text);
+        this->mimeData->setText(text);
 
-    drag->setPixmap(QPixmap::fromImage(this->img));
-    drag->setMimeData(mimeData);
+        this->drag->setPixmap(QPixmap::fromImage(this->img));
+        this->drag->setMimeData(this->mimeData);
+    }
 
     drag->exec();
     //drag->start(); either one works
@@ -79,4 +82,13 @@ void ChessPiece::dragMoveEvent(QDragMoveEvent *event)
 void ChessPiece::dragEnterEvent(QDragEnterEvent *event)
 {
     event->acceptProposedAction();
+}
+
+ChessPiece::~ChessPiece()
+{
+    if(this->drag)
+    {
+        delete this->drag;
+        delete this->mimeData;
+    }
 }

@@ -21,7 +21,10 @@ public:
         pos.column = 0;
         this->setFixedSize(110,110);
         this->enableDrag = false;
+        this->drag = NULL;
+        this->mimeData = NULL;
     }
+    ~ChessPiece();
     bool loadImage(std::string);
     virtual std::vector<Position> * getAvailableMoves() {return &this->availableMoves;}
     virtual int movePiece(Position) {return 0;}
@@ -34,6 +37,8 @@ protected:
     std::vector<Position> availableMoves;
     QPoint dragStartPosition;
     QImage img;
+    QDrag * drag;
+    QMimeData * mimeData;
     void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);
     void dropEvent(QDropEvent*);
