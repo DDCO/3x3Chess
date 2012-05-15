@@ -41,8 +41,8 @@ void ChessPiece::mouseMoveEvent(QMouseEvent *event)
     drag->setPixmap(QPixmap::fromImage(this->img));
     drag->setMimeData(mimeData);
 
-    drag->exec();
-    //drag->start(); either one works
+    //drag->exec(); // <-- sometimes it gets stuck here after move is called
+    drag->start(); //either one works
 }
 
 void ChessPiece::dropEvent(QDropEvent *event)
@@ -56,7 +56,7 @@ void ChessPiece::dropEvent(QDropEvent *event)
     if(found != std::string::npos)
     {
         strRow = prevPosStr.substr(0,(int)found);
-        strColumn = prevPosStr.substr((int)found+1,prevPosStr.size());
+        strColumn = prevPosStr.substr((int)found+1);
     }
 
     //Convert str to int

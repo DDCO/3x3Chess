@@ -34,11 +34,11 @@ protected:
     std::vector<Position> availableMoves;
     QPoint dragStartPosition;
     QImage img;
-    void mousePressEvent(QMouseEvent*);
-    void mouseMoveEvent(QMouseEvent*);
-    void dropEvent(QDropEvent*);
-    void dragMoveEvent(QDragMoveEvent*);
-    void dragEnterEvent(QDragEnterEvent*);
+    virtual void mousePressEvent(QMouseEvent*);
+    virtual void mouseMoveEvent(QMouseEvent*);
+    virtual void dropEvent(QDropEvent*);
+    virtual void dragMoveEvent(QDragMoveEvent*);
+    virtual void dragEnterEvent(QDragEnterEvent*);
 };
 
 class PlaceHolder : public ChessPiece

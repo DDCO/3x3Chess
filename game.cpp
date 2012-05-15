@@ -30,6 +30,8 @@ void Game::swapPieces(Position pos1, Position pos2)
     piece2->setPosition(pos1.row,pos1.column);
 
     //swap objects in gridlayout
+    pGridLayout->removeWidget(piece1);
+    pGridLayout->removeWidget(piece2);
     pGridLayout->addWidget(piece1,pos2.row,pos2.column,Qt::AlignCenter);
     pGridLayout->addWidget(piece2,pos1.row,pos1.column,Qt::AlignCenter);
 
@@ -42,13 +44,11 @@ void Game::swapPieces(Position pos1, Position pos2)
 
 void Game::removePiece(Position pos)
 {
-    PlaceHolder * ph = new PlaceHolder();
-
     ChessPiece * piece = (ChessPiece*)pGridLayout->itemAtPosition(pos.row,pos.column)->widget();
     pGridLayout->removeWidget(piece);
     delete piece;
 
-    pGridLayout->addWidget(ph,pos.row,pos.column,Qt::AlignCenter);
+    pGridLayout->addWidget(new PlaceHolder(),pos.row,pos.column,Qt::AlignCenter);
 }
 
 Player * Game::getPlayerByTurn()
