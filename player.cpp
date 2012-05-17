@@ -23,6 +23,7 @@ void Player::enableDrag(bool enabled)
 
 bool Player::isCheck()
 {
+
     return false;
 }
 

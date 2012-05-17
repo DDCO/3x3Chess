@@ -17,8 +17,9 @@ std::vector<Position> * Pawn::getAvailableMoves()
 
 int Pawn::movePiece(Position newpos)
 {
+    ChessPiece * cp = (ChessPiece*)pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget();
     // if NULL that means the cast failed and it is not PlaceHolder Object, meaning there is a piece in this position
-    PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget());
+    PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(cp);
 
     Game * game = Game::getInstance();
 
@@ -28,20 +29,23 @@ int Pawn::movePiece(Position newpos)
         {
             qDebug("Forward Move is clear");
             game->swapPieces(this->pos,newpos);
+            return 1;
         }
-        if(newPosPiece == NULL) //Not a PlaceHolder in new position
+        if(newPosPiece == NULL && (cp->colour != this->colour) ) //Not a PlaceHolder and chesspiece is not the same team
         {
             if((this->pos.column-1) == newpos.column)
             {
                 qDebug("Take Piece on Left");
                 game->removePiece(newpos);// Remove piece that was previously there
                 game->swapPieces(this->pos,newpos);
+                return 1;
             }
             else if((this->pos.column+1) == newpos.column)
             {
                 qDebug("Take Piece on Right");
                 game->removePiece(newpos);// Remove piece that was previously there
                 game->swapPieces(this->pos,newpos);
+                return 1;
             }
         }
     }

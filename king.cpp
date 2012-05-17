@@ -23,13 +23,20 @@ int King::movePiece(Position newpos)
         int rowOffset = abs(this->pos.row - newpos.row);
         if( colOffset <= 1 && rowOffset <=1  )
         {
-            PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget());
+            ChessPiece * cp = (ChessPiece*)pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget();
+            PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(cp);
             Game * game = Game::getInstance();
 
-            if(!newPosPiece)
-                game->removePiece(newpos);
+            if(!newPosPiece) // Not a placeholder
+            {
+                if(cp->colour != this->colour) // not the same team
+                    game->removePiece(newpos);
+                else
+                    return 0;
+            }
             game->swapPieces(newpos, this->pos);
             qDebug("King Moved");
+            return 1;
         }
     }
     return 0;

@@ -19,16 +19,23 @@ int Bishop::movePiece(Position newpos)
 {
     if( (newpos.row != this->pos.row) || (newpos.column != this->pos.column) )
     {
-        PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget());
+        ChessPiece * cp = (ChessPiece*)pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget();
+        PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(cp);
         Game * game = Game::getInstance();
 
         int offset = abs(newpos.row - this->pos.row);
         if( (this->pos.column+offset == newpos.column) || (this->pos.column-offset == newpos.column) )
         {
-            if(!newPosPiece) // If not placeholder(meaning its empty) remove piece
-                game->removePiece(newpos);
+            if(!newPosPiece) // If not placeholder
+            {
+                if(cp->colour != this->colour) //Not the same team
+                    game->removePiece(newpos);
+                else
+                    return 0;
+            }
             game->swapPieces(this->pos,newpos);
             qDebug("Bishop Moved");
+            return 1;
         }
     }
     return 0;

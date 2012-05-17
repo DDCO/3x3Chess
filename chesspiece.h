@@ -28,9 +28,9 @@ public:
     virtual int movePiece(Position) {return 0;}
     void setPosition(int,int);
     bool enableDrag;
+    Colour colour;
 
 protected:
-    Colour colour;
     Position pos;
     std::vector<Position> availableMoves;
     QPoint dragStartPosition;
