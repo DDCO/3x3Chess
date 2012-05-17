@@ -41,8 +41,8 @@ void ChessPiece::mouseMoveEvent(QMouseEvent *event)
     drag->setPixmap(QPixmap::fromImage(this->img));
     drag->setMimeData(mimeData);
 
-    //drag->exec(); // <-- sometimes it gets stuck here after move is called
-    drag->start(); //either one works
+    Qt::DropAction dropAction = drag->exec();
+    //drag->start(); //either one works
 }
 
 void ChessPiece::dropEvent(QDropEvent *event)
@@ -69,6 +69,8 @@ void ChessPiece::dropEvent(QDropEvent *event)
 
     //move piece to new position(the position of the placeholder)
     p->movePiece(this->pos);
+
+    event->acceptProposedAction();
 }
 
 void ChessPiece::dragMoveEvent(QDragMoveEvent *event)
@@ -78,5 +80,10 @@ void ChessPiece::dragMoveEvent(QDragMoveEvent *event)
 
 void ChessPiece::dragEnterEvent(QDragEnterEvent *event)
 {
-    event->acceptProposedAction();
+    if(event->mimeData()->hasFormat("text/plain"))
+        event->acceptProposedAction();
+}
+
+ChessPiece::~ChessPiece()
+{
 }

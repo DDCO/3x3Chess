@@ -46,7 +46,7 @@ void Game::removePiece(Position pos)
 {
     ChessPiece * piece = (ChessPiece*)pGridLayout->itemAtPosition(pos.row,pos.column)->widget();
     pGridLayout->removeWidget(piece);
-    delete piece;
+    piece->hide();
 
     pGridLayout->addWidget(new PlaceHolder(),pos.row,pos.column,Qt::AlignCenter);
 }
@@ -71,7 +71,9 @@ Game::~Game()
         {
             ChessPiece * piece = (ChessPiece*)pGridLayout->itemAtPosition(row,col)->widget();
             pGridLayout->removeWidget(piece);
-            delete piece;
+            PlaceHolder * ph = dynamic_cast<PlaceHolder*>(piece);
+            if(ph)
+                delete piece;
         }
     }
 

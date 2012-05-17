@@ -22,6 +22,7 @@ public:
         this->setFixedSize(110,110);
         this->enableDrag = false;
     }
+    ~ChessPiece();
     bool loadImage(std::string);
     virtual std::vector<Position> * getAvailableMoves() {return &this->availableMoves;}
     virtual int movePiece(Position) {return 0;}
@@ -34,11 +35,11 @@ protected:
     std::vector<Position> availableMoves;
     QPoint dragStartPosition;
     QImage img;
-    virtual void mousePressEvent(QMouseEvent*);
-    virtual void mouseMoveEvent(QMouseEvent*);
-    virtual void dropEvent(QDropEvent*);
-    virtual void dragMoveEvent(QDragMoveEvent*);
-    virtual void dragEnterEvent(QDragEnterEvent*);
+    void mousePressEvent(QMouseEvent*);
+    void mouseMoveEvent(QMouseEvent*);
+    void dropEvent(QDropEvent*);
+    void dragMoveEvent(QDragMoveEvent*);
+    void dragEnterEvent(QDragEnterEvent*);
 };
 
 class PlaceHolder : public ChessPiece
