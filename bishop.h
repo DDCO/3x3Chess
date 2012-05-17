@@ -9,7 +9,7 @@ class Bishop : public ChessPiece
 public:
     Bishop(Colour);
     std::vector<Position> * getAvailableMoves();
-    int movePiece(Position);
+    int movePermitted(Position);
 };
 
 #endif // BISHOP_H

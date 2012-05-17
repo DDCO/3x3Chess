@@ -25,13 +25,14 @@ public:
     ~ChessPiece();
     bool loadImage(std::string);
     virtual std::vector<Position> * getAvailableMoves() {return &this->availableMoves;}
-    virtual int movePiece(Position) {return 0;}
+    void movePiece(Position);
+    virtual int movePermitted(Position) {return 0;}
     void setPosition(int,int);
     bool enableDrag;
     Colour colour;
+    Position pos;
 
 protected:
-    Position pos;
     std::vector<Position> availableMoves;
     QPoint dragStartPosition;
     QImage img;

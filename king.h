@@ -9,7 +9,7 @@ class King : public ChessPiece
 public:
     King(Colour);
     std::vector<Position> * getAvailableMoves();
-    int movePiece(Position);
+    int movePermitted(Position);
 };
 
 #endif // KING_H

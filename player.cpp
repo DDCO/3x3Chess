@@ -1,4 +1,5 @@
 #include "player.h"
+#include "game.h"
 
 int Player::playerCount = 0;
 
@@ -23,7 +24,17 @@ void Player::enableDrag(bool enabled)
 
 bool Player::isCheck()
 {
-
+    Game * game = Game::getInstance();
+    Player * player = game->getPlayerByTurn(1); // Get player of next turn
+    for(int i = 0; i < 3; i++)
+    {
+        ChessPiece * cp = player->chessPiecesArray[i];
+        if( cp->movePermitted(this->chessPiecesArray[2]->pos) ) // is the position of the king a permitted move for the opponent
+        {
+            qDebug("Check");
+            return true;
+        }
+    }
     return false;
 }
 

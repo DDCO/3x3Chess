@@ -1,5 +1,4 @@
 #include "king.h"
-#include "game.h"
 
 King::King(Colour c) : ChessPiece(0,0)
 {
@@ -15,7 +14,8 @@ std::vector<Position> * King::getAvailableMoves()
     return &this->availableMoves;
 }
 
-int King::movePiece(Position newpos)
+// TODO Check if the king is in check
+int King::movePermitted(Position newpos)
 {
     if( (newpos.row != this->pos.row) || (newpos.column != this->pos.column) ) // not the same spot as it is currently
     {
@@ -25,17 +25,14 @@ int King::movePiece(Position newpos)
         {
             ChessPiece * cp = (ChessPiece*)pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget();
             PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(cp);
-            Game * game = Game::getInstance();
 
             if(!newPosPiece) // Not a placeholder
             {
                 if(cp->colour != this->colour) // not the same team
-                    game->removePiece(newpos);
+                    return 2;
                 else
                     return 0;
             }
-            game->swapPieces(newpos, this->pos);
-            qDebug("King Moved");
             return 1;
         }
     }

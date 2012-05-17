@@ -1,4 +1,5 @@
 #include "chesspiece.h"
+#include "game.h"
 
 bool ChessPiece::loadImage(std::string filename)
 {
@@ -82,6 +83,22 @@ void ChessPiece::dragEnterEvent(QDragEnterEvent *event)
 {
     if(event->mimeData()->hasFormat("text/plain"))
         event->acceptProposedAction();
+}
+
+void ChessPiece::movePiece(Position newpos)
+{
+    Game * game = Game::getInstance();
+    switch(this->movePermitted(newpos))
+    {
+        case 2:
+            game->removePiece(newpos);
+        case 1:
+            game->swapPieces(newpos,this->pos);
+        break;
+        case 0:
+            qDebug("Move not permitted");
+        break;
+    }
 }
 
 ChessPiece::~ChessPiece()

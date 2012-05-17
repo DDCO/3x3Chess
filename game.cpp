@@ -37,8 +37,11 @@ void Game::swapPieces(Position pos1, Position pos2)
 
     Player * player = this->getPlayerByTurn();
     player->enableDrag(false);
+
     this->turnCount++;
+
     player = this->getPlayerByTurn();
+    player->isCheck();
     player->enableDrag(true);
 }
 
@@ -51,9 +54,9 @@ void Game::removePiece(Position pos)
     pGridLayout->addWidget(new PlaceHolder(),pos.row,pos.column,Qt::AlignCenter);
 }
 
-Player * Game::getPlayerByTurn()
+Player * Game::getPlayerByTurn(int turn)
 {
-    if((this->turnCount % 2) == 0)
+    if( ( (this->turnCount+turn) % 2) == 0 )
         return p1;
     return p2;
 }

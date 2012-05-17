@@ -13,12 +13,12 @@ public:
     int turnCount;
     void swapPieces(Position, Position);
     void removePiece(Position);
+    Player * getPlayerByTurn(int turn = 0);
     void close();
 private:
     Game();
     ~Game();
     static Game * instance;
-    Player * getPlayerByTurn();
 };
 
 #endif // GAME_H
