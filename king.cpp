@@ -1,12 +1,9 @@
 #include "king.h"
+#include "game.h"
 
-King::King(Colour c) : ChessPiece(0,0)
+King::King(Colour c)
 {
     this->colour = c;
-    if(this->colour == BLACK)
-        this->loadImage(":images/black_king_s.png");
-    else
-        this->loadImage(":images/white_king_s.png");
 }
 
 std::vector<Position> * King::getAvailableMoves()
@@ -14,17 +11,25 @@ std::vector<Position> * King::getAvailableMoves()
     return &this->availableMoves;
 }
 
+Position King::getPosition()
+{
+    Game * game = Game::getInstance();
+    Player * p = game->getPlayerByTurn();
+    return p->king->layoutPosition;
+}
+
 // TODO Check if the king is in check
 int King::movePermitted(Position newpos)
 {
-    if( (newpos.row != this->pos.row) || (newpos.column != this->pos.column) ) // not the same spot as it is currently
+    Position pos = this->getPosition();
+    if( (newpos.row != pos.row) || (newpos.column != pos.column) ) // not the same spot as it is currently
     {
-        int colOffset = abs(this->pos.column - newpos.column);
-        int rowOffset = abs(this->pos.row - newpos.row);
+        int colOffset = abs(pos.column - newpos.column);
+        int rowOffset = abs(pos.row - newpos.row);
         if( colOffset <= 1 && rowOffset <=1  )
         {
+            PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget());
             ChessPiece * cp = (ChessPiece*)pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget();
-            PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(cp);
 
             if(!newPosPiece) // Not a placeholder
             {
@@ -37,4 +42,23 @@ int King::movePermitted(Position newpos)
         }
     }
     return 0;
+}
+
+bool King::isCheck()
+{
+    Game * game = Game::getInstance();
+    Player * player = game->getPlayerByTurn(1); // Get player of next turn
+    Position pos = player->king->layoutPosition;
+
+    if( player->bishop->movePermitted(pos) || player->pawn->movePermitted(pos) ) // is the position of the king a permitted move for the opponent
+    {
+        qDebug("Check");
+        return true;
+    }
+    return false;
+}
+
+bool King::isCheckMate()
+{
+    return false;
 }

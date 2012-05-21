@@ -22,18 +22,19 @@ Game * Game::getInstance()
 
 void Game::swapPieces(Position pos1, Position pos2)
 {
-    ChessPiece * piece1 = (ChessPiece*)pGridLayout->itemAtPosition(pos1.row,pos1.column)->widget();
-    ChessPiece * piece2 = (ChessPiece*)pGridLayout->itemAtPosition(pos2.row,pos2.column)->widget();
+    DragableLabel * label1 = (DragableLabel*)pGridLayout->itemAtPosition(pos1.row,pos1.column)->widget();
+    DragableLabel * label2 = (DragableLabel*)pGridLayout->itemAtPosition(pos2.row,pos2.column)->widget();
 
-    //Update position in object
-    piece1->setPosition(pos2.row,pos2.column);
-    piece2->setPosition(pos1.row,pos1.column);
+    label1->layoutPosition.row = pos2.row;
+    label1->layoutPosition.column = pos2.column;
+    label2->layoutPosition.row = pos1.row;
+    label2->layoutPosition.column = pos1.column;
 
     //swap objects in gridlayout
-    pGridLayout->removeWidget(piece1);
-    pGridLayout->removeWidget(piece2);
-    pGridLayout->addWidget(piece1,pos2.row,pos2.column,Qt::AlignCenter);
-    pGridLayout->addWidget(piece2,pos1.row,pos1.column,Qt::AlignCenter);
+    pGridLayout->removeWidget(label1);
+    pGridLayout->removeWidget(label2);
+    pGridLayout->addWidget(label1,pos2.row,pos2.column,Qt::AlignCenter);
+    pGridLayout->addWidget(label2,pos1.row,pos1.column,Qt::AlignCenter);
 
     Player * player = this->getPlayerByTurn();
     player->enableDrag(false);
@@ -41,17 +42,17 @@ void Game::swapPieces(Position pos1, Position pos2)
     this->turnCount++;
 
     player = this->getPlayerByTurn();
-    player->isCheck();
+    player->king->isCheck();
     player->enableDrag(true);
 }
 
 void Game::removePiece(Position pos)
 {
-    ChessPiece * piece = (ChessPiece*)pGridLayout->itemAtPosition(pos.row,pos.column)->widget();
-    pGridLayout->removeWidget(piece);
-    piece->hide();
+    DragableLabel * label = (DragableLabel*)pGridLayout->itemAtPosition(pos.row,pos.column)->widget();
+    pGridLayout->removeWidget(label);
+    label->hide();
 
-    pGridLayout->addWidget(new PlaceHolder(),pos.row,pos.column,Qt::AlignCenter);
+    pGridLayout->addWidget(new PlaceHolder(pos.row,pos.column),pos.row,pos.column,Qt::AlignCenter);
 }
 
 Player * Game::getPlayerByTurn(int turn)
@@ -66,17 +67,38 @@ void Game::close()
     delete Game::instance;
 }
 
+void Game::populateLayout()
+{
+    this->p1 = new Player();
+    this->p2 = new Player();
+
+    pGridLayout->addWidget(p2->bishop,0,0,Qt::AlignCenter);
+    pGridLayout->addWidget(p2->pawn,0,1,Qt::AlignCenter);
+    pGridLayout->addWidget(p2->king,0,2,Qt::AlignCenter);
+    pGridLayout->addWidget(new PlaceHolder(1,0),1,0,Qt::AlignCenter);
+    pGridLayout->addWidget(new PlaceHolder(1,1),1,1,Qt::AlignCenter);
+    pGridLayout->addWidget(new PlaceHolder(1,2),1,2,Qt::AlignCenter);
+    pGridLayout->addWidget(p1->bishop,2,0,Qt::AlignCenter);
+    pGridLayout->addWidget(p1->pawn,2,1,Qt::AlignCenter);
+    pGridLayout->addWidget(p1->king,2,2,Qt::AlignCenter);
+
+    pGridLayout->setRowMinimumHeight(1,110);
+
+    p1->enableDrag(true);
+}
+
 Game::~Game()
 {
     for(int col = 0; col < 3; col++)
     {
         for(int row = 0; row < 3; row++)
         {
-            ChessPiece * piece = (ChessPiece*)pGridLayout->itemAtPosition(row,col)->widget();
-            pGridLayout->removeWidget(piece);
-            PlaceHolder * ph = dynamic_cast<PlaceHolder*>(piece);
+            DragableLabel * label = (DragableLabel*)pGridLayout->itemAtPosition(row,col)->widget();
+            pGridLayout->removeWidget(label);
+
+            PlaceHolder * ph = dynamic_cast<PlaceHolder*>(label);
             if(ph)
-                delete piece;
+                delete label;
         }
     }
 

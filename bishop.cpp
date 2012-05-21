@@ -1,12 +1,9 @@
 #include "bishop.h"
+#include "game.h"
 
-Bishop::Bishop(Colour c) : ChessPiece(0,0)
+Bishop::Bishop(Colour c)
 {
     this->colour = c;
-    if(this->colour == BLACK)
-        this->loadImage(":images/black_bishop_s.png");
-    else
-        this->loadImage(":images/white_bishop_s.png");
 }
 
 std::vector<Position> * Bishop::getAvailableMoves()
@@ -14,15 +11,23 @@ std::vector<Position> * Bishop::getAvailableMoves()
     return &this->availableMoves;
 }
 
+Position Bishop::getPosition()
+{
+    Game * game = Game::getInstance();
+    Player * p = game->getPlayerByTurn();
+    return p->bishop->layoutPosition;
+}
+
 int Bishop::movePermitted(Position newpos)
 {
-    if( (newpos.row != this->pos.row) || (newpos.column != this->pos.column) )
+    Position pos = this->getPosition();
+    if( (newpos.row != pos.row) || (newpos.column != pos.column) )
     {
+        PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget());
         ChessPiece * cp = (ChessPiece*)pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget();
-        PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(cp);
 
-        int offset = abs(newpos.row - this->pos.row);
-        if( (this->pos.column+offset == newpos.column) || (this->pos.column-offset == newpos.column) )
+        int offset = abs(newpos.row - pos.row);
+        if( (pos.column+offset == newpos.column) || (pos.column-offset == newpos.column) )
         {
             if(!newPosPiece) // If not placeholder
             {

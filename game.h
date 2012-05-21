@@ -14,6 +14,7 @@ public:
     void swapPieces(Position, Position);
     void removePiece(Position);
     Player * getPlayerByTurn(int turn = 0);
+    void populateLayout();
     void close();
 private:
     Game();

@@ -1,12 +1,9 @@
 #include "pawn.h"
+#include "game.h"
 
-Pawn::Pawn(Colour c) : ChessPiece(0,0)
+Pawn::Pawn(Colour c)
 {
     this->colour = c;
-    if(this->colour == BLACK)
-        this->loadImage(":images/black_pawn_s.png");
-    else
-        this->loadImage(":images/white_pawn_s.png");
 }
 
 std::vector<Position> * Pawn::getAvailableMoves()
@@ -14,21 +11,29 @@ std::vector<Position> * Pawn::getAvailableMoves()
     return &this->availableMoves;
 }
 
+Position Pawn::getPosition()
+{
+    Game * game = Game::getInstance();
+    Player * p = game->getPlayerByTurn();
+    return p->pawn->layoutPosition;
+}
+
 int Pawn::movePermitted(Position newpos)
 {
     ChessPiece * cp = (ChessPiece*)pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget();
     // if NULL that means the cast failed and it is not PlaceHolder Object, meaning there is a piece in this position
-    PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(cp);
+    PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget());
+    Position pos = this->getPosition();
 
-    if( ((this->colour == BLACK) && ((this->pos.row+1) == newpos.row)) || ((this->colour == WHITE) && ((this->pos.row-1) == newpos.row)) )
+    if( ((this->colour == BLACK) && ((pos.row+1) == newpos.row)) || ((this->colour == WHITE) && ((pos.row-1) == newpos.row)) )
     {
-        if((this->pos.column == newpos.column) && newPosPiece != NULL)
+        if((pos.column == newpos.column) && newPosPiece != NULL)
             return 1;
         if(newPosPiece == NULL && (cp->colour != this->colour) ) //Not a PlaceHolder and chesspiece is not the same team
         {
-            if((this->pos.column-1) == newpos.column)
+            if((pos.column-1) == newpos.column)
                 return 2;
-            else if((this->pos.column+1) == newpos.column)
+            else if((pos.column+1) == newpos.column)
                 return 2;
         }
     }

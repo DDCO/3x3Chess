@@ -18,7 +18,11 @@ SOURCES += main.cpp\
     pawn.cpp \
     king.cpp \
     global.cpp \
-    game.cpp
+    game.cpp \
+    dragablelabel.cpp \
+    pawnlabel.cpp \
+    bishoplabel.cpp \
+    kinglabel.cpp
 
 HEADERS  += mainwindow.h \
     chesspiece.h \
@@ -27,7 +31,11 @@ HEADERS  += mainwindow.h \
     pawn.h \
     king.h \
     global.h \
-    game.h
+    game.h \
+    dragablelabel.h \
+    pawnlabel.h \
+    bishoplabel.h \
+    kinglabel.h
 
 FORMS    += mainwindow.ui
 

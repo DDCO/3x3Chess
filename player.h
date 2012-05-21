@@ -2,18 +2,18 @@
 #define PLAYER_H
 
 #include "chesspiece.h"
-#include "pawn.h"
-#include "bishop.h"
-#include "king.h"
+#include "pawnlabel.h"
+#include "bishoplabel.h"
+#include "kinglabel.h"
 
 class Player
 {
 public:
     Player();
     ~Player();
-    ChessPiece * chessPiecesArray[3];
-    bool isCheck();
-    bool isCheckMate();
+    BishopLabel * bishop;
+    PawnLabel * pawn;
+    KingLabel * king;
     static int playerCount;
     void enableDrag(bool);
 };
