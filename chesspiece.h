@@ -13,15 +13,12 @@ class ChessPiece
 {
 
 public:
-    virtual std::vector<Position> * getAvailableMoves() {return &this->availableMoves;}
     void movePiece(Position);
     virtual int movePermitted(Position) {return 0;}
     virtual Position getPosition() {return position;}
+    virtual int getType() {return 0;}
     Colour colour;
     Position position;
-
-protected:
-    std::vector<Position> availableMoves;
 };
 
 #endif // CHESSPIECE_H

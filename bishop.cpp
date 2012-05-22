@@ -6,16 +6,37 @@ Bishop::Bishop(Colour c)
     this->colour = c;
 }
 
-std::vector<Position> * Bishop::getAvailableMoves()
-{
-    return &this->availableMoves;
-}
-
 Position Bishop::getPosition()
 {
     Game * game = Game::getInstance();
     Player * p = game->getPlayerByTurn();
     return p->bishop->layoutPosition;
+}
+
+int Bishop::movePermitted(Position newpos, BoardState * bs)
+{
+    Position * pos = bs->getPositionByType(BISHOP);
+    if(!pos)
+        return 0;
+
+    if( (newpos.row != pos->row) || (newpos.column != pos->column) )
+    {
+        ChessPiece * cp = bs->board[newpos.row][newpos.column];
+
+        int offset = abs(newpos.row - pos->row);
+        if( (pos->column+offset == newpos.column) || (pos->column-offset == newpos.column) )
+        {
+            if(cp)
+            {
+                if(cp->colour != bs->board[pos->row][pos->column]->colour) //Not the same team
+                    return 2;
+                else
+                    return 0;
+            }
+            return 1;
+        }
+    }
+    return 0;
 }
 
 int Bishop::movePermitted(Position newpos)

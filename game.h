@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "player.h"
+#include "ai.h"
 #include "global.h"
 
 class Game
@@ -9,7 +9,7 @@ class Game
 public:
     static Game * getInstance();
     Player * p1;
-    Player * p2;
+    AI * p2;
     int turnCount;
     void swapPieces(Position, Position);
     void removePiece(Position);

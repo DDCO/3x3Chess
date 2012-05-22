@@ -5,12 +5,6 @@ Game * Game::instance = NULL;
 Game::Game()
 {
     this->turnCount = 0;
-
-    //Create new players
-    this->p1 = new Player();
-    this->p2 = new Player();
-
-    this->p1->enableDrag(true);
 }
 
 Game * Game::getInstance()
@@ -42,8 +36,14 @@ void Game::swapPieces(Position pos1, Position pos2)
     this->turnCount++;
 
     player = this->getPlayerByTurn();
-    player->king->isCheck();
+    //player->king->isCheck();
     player->enableDrag(true);
+
+    this->p2->updateTree();
+
+    //Quick dirty check to see if its AI turn
+    if((this->turnCount % 2) != 0)
+        this->p2->MaxMove();
 }
 
 void Game::removePiece(Position pos)
@@ -69,8 +69,9 @@ void Game::close()
 
 void Game::populateLayout()
 {
+    //Create new players
     this->p1 = new Player();
-    this->p2 = new Player();
+    this->p2 = new AI();
 
     pGridLayout->addWidget(p2->bishop,0,0,Qt::AlignCenter);
     pGridLayout->addWidget(p2->pawn,0,1,Qt::AlignCenter);
@@ -84,7 +85,8 @@ void Game::populateLayout()
 
     pGridLayout->setRowMinimumHeight(1,110);
 
-    p1->enableDrag(true);
+    this->p1->enableDrag(true);
+    this->p2->setupTree();
 }
 
 Game::~Game()

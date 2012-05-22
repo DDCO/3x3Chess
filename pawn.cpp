@@ -6,16 +6,35 @@ Pawn::Pawn(Colour c)
     this->colour = c;
 }
 
-std::vector<Position> * Pawn::getAvailableMoves()
-{
-    return &this->availableMoves;
-}
-
 Position Pawn::getPosition()
 {
     Game * game = Game::getInstance();
     Player * p = game->getPlayerByTurn();
     return p->pawn->layoutPosition;
+}
+
+int Pawn::movePermitted(Position newpos, BoardState * bs)
+{
+    ChessPiece * cp = bs->board[newpos.row][newpos.column];
+    Position * pos = bs->getPositionByType(PAWN);
+    if(!pos)
+        return 0;
+
+    Colour colour = bs->board[pos->row][pos->column]->colour;
+
+    if( ((colour == BLACK) && ((pos->row+1) == newpos.row)) || ((colour == WHITE) && ((pos->row-1) == newpos.row)) )
+    {
+        if((pos->column == newpos.column) && cp == NULL)
+            return 1;
+        if(cp && (cp->colour != colour) )
+        {
+            if((pos->column-1) == newpos.column)
+                return 2;
+            else if((pos->column+1) == newpos.column)
+                return 2;
+        }
+    }
+    return 0;
 }
 
 int Pawn::movePermitted(Position newpos)

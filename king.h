@@ -2,16 +2,17 @@
 #define KING_H
 
 #include "chesspiece.h"
-#include "dragablelabel.h"
+#include "boardstate.h"
 
 class King : public ChessPiece
 {
 
 public:
     King(Colour);
-    std::vector<Position> * getAvailableMoves();
+    static int movePermitted(Position, BoardState * bs = NULL);
     int movePermitted(Position);
     Position getPosition();
+    int getType() {return KING;}
     bool isCheck();
     bool isCheckMate();
 };

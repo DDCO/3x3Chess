@@ -12,4 +12,6 @@ struct Position {
 
 enum Colour { BLACK, WHITE };
 
+enum ChessPieceType { BISHOP=100, PAWN=101, KING=102 };
+
 #endif // GLOBAL_H

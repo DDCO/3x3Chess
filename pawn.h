@@ -2,15 +2,16 @@
 #define PAWN_H
 
 #include "chesspiece.h"
-#include "dragablelabel.h"
+#include "boardstate.h"
 
 class Pawn : public ChessPiece
 {
 
 public:
     Pawn(Colour);
-    std::vector<Position> * getAvailableMoves();
+    static int movePermitted(Position, BoardState * bs = NULL);
     int movePermitted(Position);
+    int getType() {return PAWN;}
     Position getPosition();
 };
 

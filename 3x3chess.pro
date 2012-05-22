@@ -22,7 +22,10 @@ SOURCES += main.cpp\
     dragablelabel.cpp \
     pawnlabel.cpp \
     bishoplabel.cpp \
-    kinglabel.cpp
+    kinglabel.cpp \
+    node.cpp \
+    ai.cpp \
+    boardstate.cpp
 
 HEADERS  += mainwindow.h \
     chesspiece.h \
@@ -35,7 +38,10 @@ HEADERS  += mainwindow.h \
     dragablelabel.h \
     pawnlabel.h \
     bishoplabel.h \
-    kinglabel.h
+    kinglabel.h \
+    node.h \
+    ai.h \
+    boardstate.h
 
 FORMS    += mainwindow.ui
 
