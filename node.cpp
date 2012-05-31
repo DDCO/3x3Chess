@@ -65,7 +65,5 @@ int Node::childrenCount()
 
 Node::~Node()
 {
-    for(int i = 0; i < this->childNodeList.size(); i++)
-        delete this->childNodeList.at(i);
-    this->childNodeList.clear();
+
 }

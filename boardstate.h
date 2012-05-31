@@ -24,6 +24,7 @@ class BoardStateNode : public BoardState, public Node
 {
 public:
     int countTotalPieces(Colour);
+    ~BoardStateNode();
 };
 
 #endif // BOARDSTATE_H

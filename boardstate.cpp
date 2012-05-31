@@ -124,3 +124,14 @@ int BoardStateNode::countTotalPieces(Colour c)
     }
     return count;
 }
+
+BoardStateNode::~BoardStateNode()
+{
+    //Delete Children
+    /*while(!this->childNodeList.empty())
+    {
+        BoardStateNode * temp = (BoardStateNode*)this->childNodeList.back();
+        this->childNodeList.pop_back();
+        delete temp;
+    }*/
+}

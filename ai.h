@@ -19,6 +19,7 @@ public:
 private:
     Node * treeRoot;
     int depth;
+    void deleteNode(Node * node);
 };
 
 #endif // AI_H

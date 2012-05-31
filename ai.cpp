@@ -64,7 +64,9 @@ void AI::updateTree()
         if(curState == *pbs)
         {
             this->treeRoot = this->treeRoot->childNodeList.at(i);
-            //delete parent + siblings
+            pHead->childNodeList.erase(pHead->childNodeList.begin()+i); //remove new root from childlist from old root
+            this->treeRoot->setParent(NULL);
+            this->deleteNode(pHead);//delete parent + siblings
             this->getAvailableMoves(this->treeRoot);
             return;
         }
@@ -119,8 +121,6 @@ void AI::getAvailableMoves(Node * node, int level)
         if(!siblings->childNodeList.empty())
             this->getAvailableMoves(siblings->childNodeList.at(0),++level);
     }while(siblings = siblings->getNextSibling());
-
-    //this->getAvailableMoves(node->childNodeList.at(0),++level);
 }
 
 int AI::EvaluateMove(Node * node)
@@ -130,6 +130,23 @@ int AI::EvaluateMove(Node * node)
         colour = WHITE;
 
     return ((BoardStateNode*)node)->childrenCount() + ((BoardStateNode*)node)->countTotalPieces(colour);
+}
+
+void AI::deleteNode(Node * node)
+{
+    //Go to the first sibling
+    while(node->getPreviousSibling())
+        node = node->getPreviousSibling();
+
+    //Delete All Siblings
+    while(node = node->getNextSibling())
+    {
+        delete (BoardStateNode*)node->getPreviousSibling();
+        node->setPreviousSibling(NULL);
+    }
+
+    //delete last one
+    delete node;
 }
 
 AI::~AI()
