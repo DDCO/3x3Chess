@@ -43,7 +43,15 @@ void Game::swapPieces(Position pos1, Position pos2)
 
     //Quick dirty check to see if its AI turn
     if((this->turnCount % 2) != 0)
-        this->p2->MaxMove();
+    {
+        if(this->p2->movesAvailable())
+            this->p2->MaxMove();
+        else
+        {
+            qDebug("Game Over");
+            this->p2->enableDrag(false);
+        }
+    }
 }
 
 void Game::removePiece(Position pos)

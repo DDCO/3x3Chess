@@ -26,7 +26,7 @@ void AI::MaxMove()
             max = points;
         }
     }
-    BoardStateNode * bsn1 = (BoardStateNode*)this->treeRoot;
+    //BoardStateNode * bsn1 = (BoardStateNode*)this->treeRoot;
     BoardStateNode * bsn = (BoardStateNode*)this->treeRoot->childNodeList.at(index);
 
     switch(bsn->movePieceType)
@@ -46,6 +46,11 @@ void AI::MaxMove()
 void AI::MinMove()
 {
 
+}
+
+bool AI::movesAvailable()
+{
+    return (this->treeRoot->childNodeList.size()>=1)?true:false;
 }
 
 void AI::updateTree()
@@ -129,5 +134,5 @@ int AI::EvaluateMove(Node * node)
 
 AI::~AI()
 {
-    delete this->treeRoot;
+    //delete this->treeRoot;
 }

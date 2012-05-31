@@ -12,6 +12,7 @@ public:
     void MaxMove();
     void MinMove();
     void getAvailableMoves(Node * node, int level = 0);
+    bool movesAvailable();
     int EvaluateMove(Node*);
     void updateTree();
     void setupTree();
