@@ -13,8 +13,8 @@ public:
     int movePermitted(Position);
     Position getPosition();
     int getType() {return KING;}
-    bool isCheck();
-    bool isCheckMate();
+    static bool isCheck(Position);
+    static bool isCheckMate(BoardState);
 };
 
 #endif // KING_H

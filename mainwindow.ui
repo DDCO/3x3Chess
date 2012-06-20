@@ -74,13 +74,19 @@
     <property name="title">
      <string>Game</string>
     </property>
-    <addaction name="actionNew"/>
+    <addaction name="actionAI"/>
+    <addaction name="actionPlayer"/>
    </widget>
    <addaction name="menuGame"/>
   </widget>
-  <action name="actionNew">
+  <action name="actionAI">
    <property name="text">
-    <string>New</string>
+    <string>Player vs AI</string>
+   </property>
+  </action>
+  <action name="actionPlayer">
+   <property name="text">
+    <string>Player vs Player</string>
    </property>
   </action>
  </widget>

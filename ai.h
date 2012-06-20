@@ -16,10 +16,11 @@ public:
     int EvaluateMove(Node*);
     void updateTree();
     void setupTree();
+    int getType() {return CPU;}
 private:
+    Node * firstNode;
     Node * treeRoot;
     int depth;
-    void deleteNode(Node * node);
 };
 
 #endif // AI_H

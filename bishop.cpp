@@ -24,6 +24,13 @@ int Bishop::movePermitted(Position newpos, BoardState * bs)
         ChessPiece * cp = bs->board[newpos.row][newpos.column];
 
         int offset = abs(newpos.row - pos->row);
+        if(offset>1)// jumped more then 1 space
+        {
+            //did it jump over center piece
+            ChessPiece * cp = bs->board[1][1];
+            if(cp) // is there a piece in the center
+                return 0;
+        }
         if( (pos->column+offset == newpos.column) || (pos->column-offset == newpos.column) )
         {
             if(cp)
@@ -48,6 +55,13 @@ int Bishop::movePermitted(Position newpos)
         ChessPiece * cp = (ChessPiece*)pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget();
 
         int offset = abs(newpos.row - pos.row);
+        if(offset>1)// jumped more then 1 space
+        {
+            //did it jump over center piece
+            PlaceHolder * placeholder = dynamic_cast<PlaceHolder*>(pGridLayout->itemAtPosition(1,1)->widget());
+            if(!placeholder)
+                return 0;
+        }
         if( (pos.column+offset == newpos.column) || (pos.column-offset == newpos.column) )
         {
             if(!newPosPiece) // If not placeholder

@@ -25,7 +25,8 @@ private:
     Ui::MainWindow *ui;
 
 public slots:
-    void slotNewAction();
+    void slotPlayerAction();
+    void slotAIAction();
 };
 
 #endif // MAINWINDOW_H

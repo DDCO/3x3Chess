@@ -2,6 +2,7 @@
 
 AI::AI()
 {
+    this->firstNode = NULL;
     this->treeRoot = NULL; // add current board to top of the tree
     this->depth = 5; // tree depth
 }
@@ -10,6 +11,7 @@ void AI::setupTree()
 {
     BoardStateNode * b = new BoardStateNode();
     b->clone(); // Clone current board
+    this->firstNode = b;
     this->treeRoot = b; // add current board to top of the tree
     this->getAvailableMoves(this->treeRoot);
 }
@@ -66,7 +68,6 @@ void AI::updateTree()
             this->treeRoot = this->treeRoot->childNodeList.at(i);
             pHead->childNodeList.erase(pHead->childNodeList.begin()+i); //remove new root from childlist from old root
             this->treeRoot->setParent(NULL);
-            this->deleteNode(pHead);//delete parent + siblings
             this->getAvailableMoves(this->treeRoot);
             return;
         }
@@ -132,24 +133,7 @@ int AI::EvaluateMove(Node * node)
     return ((BoardStateNode*)node)->childrenCount() + ((BoardStateNode*)node)->countTotalPieces(colour);
 }
 
-void AI::deleteNode(Node * node)
-{
-    //Go to the first sibling
-    while(node->getPreviousSibling())
-        node = node->getPreviousSibling();
-
-    //Delete All Siblings
-    while(node = node->getNextSibling())
-    {
-        delete (BoardStateNode*)node->getPreviousSibling();
-        node->setPreviousSibling(NULL);
-    }
-
-    //delete last one
-    delete node;
-}
-
 AI::~AI()
 {
-    //delete this->treeRoot;
+    delete (BoardStateNode*)this->firstNode;
 }

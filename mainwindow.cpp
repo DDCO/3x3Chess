@@ -15,11 +15,12 @@ MainWindow::MainWindow(QWidget *parent) :
         qWarning("Failed to load bg.jpg");
     ui->bgImage->setPixmap(QPixmap::fromImage(img));
 
-    //Connect New menuitem slot
-    QObject::connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(slotNewAction()));
+    //Connect menuitem slots
+    QObject::connect(ui->actionAI,SIGNAL(triggered()),this,SLOT(slotAIAction()));
+    QObject::connect(ui->actionPlayer,SIGNAL(triggered()),this,SLOT(slotPlayerAction()));
 }
 
-void MainWindow::slotNewAction()
+void MainWindow::slotAIAction()
 {
     Game * game = Game::getInstance();
     if(game->turnCount > 0)
@@ -27,8 +28,25 @@ void MainWindow::slotNewAction()
         game->close();
         game = Game::getInstance();
     }
-
+    game->p1 = new Player();
+    game->p2 = new AI();
     game->populateLayout();
+    game->p1->enableDrag(true);
+    ((AI*)game->p2)->setupTree();
+}
+
+void MainWindow::slotPlayerAction()
+{
+    Game * game = Game::getInstance();
+    if(game->turnCount > 0)
+    {
+        game->close();
+        game = Game::getInstance();
+    }
+    game->p1 = new Player();
+    game->p2 = new Player();
+    game->populateLayout();
+    game->p1->enableDrag(true);
 }
 
 MainWindow::~MainWindow()

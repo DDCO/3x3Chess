@@ -36,20 +36,23 @@ void Game::swapPieces(Position pos1, Position pos2)
     this->turnCount++;
 
     player = this->getPlayerByTurn();
-    //player->king->isCheck();
     player->enableDrag(true);
 
-    this->p2->updateTree();
-
-    //Quick dirty check to see if its AI turn
-    if((this->turnCount % 2) != 0)
+    if(this->p2->getType() == CPU)
     {
-        if(this->p2->movesAvailable())
-            this->p2->MaxMove();
-        else
+        AI * ai = (AI*)this->p2;
+        ai->updateTree();
+
+        //if its AI turn
+        if(player->playerID == 2)
         {
-            qDebug("Game Over");
-            this->p2->enableDrag(false);
+            if(ai->movesAvailable())
+                ai->MaxMove();
+            else
+            {
+                qDebug("Game Over");
+                this->p2->enableDrag(false);
+            }
         }
     }
 }
@@ -78,8 +81,8 @@ void Game::close()
 void Game::populateLayout()
 {
     //Create new players
-    this->p1 = new Player();
-    this->p2 = new AI();
+    //this->p1 = new Player();
+    //this->p2 = new AI();
 
     pGridLayout->addWidget(p2->bishop,0,0,Qt::AlignCenter);
     pGridLayout->addWidget(p2->pawn,0,1,Qt::AlignCenter);
@@ -87,14 +90,14 @@ void Game::populateLayout()
     pGridLayout->addWidget(new PlaceHolder(1,0),1,0,Qt::AlignCenter);
     pGridLayout->addWidget(new PlaceHolder(1,1),1,1,Qt::AlignCenter);
     pGridLayout->addWidget(new PlaceHolder(1,2),1,2,Qt::AlignCenter);
-    pGridLayout->addWidget(p1->bishop,2,0,Qt::AlignCenter);
+    pGridLayout->addWidget(p1->bishop,2,2,Qt::AlignCenter);
     pGridLayout->addWidget(p1->pawn,2,1,Qt::AlignCenter);
-    pGridLayout->addWidget(p1->king,2,2,Qt::AlignCenter);
+    pGridLayout->addWidget(p1->king,2,0,Qt::AlignCenter);
 
     pGridLayout->setRowMinimumHeight(1,110);
 
-    this->p1->enableDrag(true);
-    this->p2->setupTree();
+    /*this->p1->enableDrag(true);
+    this->p2->setupTree();*/
 }
 
 Game::~Game()

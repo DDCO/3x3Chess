@@ -9,7 +9,7 @@ class Game
 public:
     static Game * getInstance();
     Player * p1;
-    AI * p2;
+    Player * p2;
     int turnCount;
     void swapPieces(Position, Position);
     void removePiece(Position);

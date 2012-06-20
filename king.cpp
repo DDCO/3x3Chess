@@ -26,7 +26,8 @@ int King::movePermitted(Position newpos, BoardState * bs)
         if( colOffset <= 1 && rowOffset <=1  )
         {
             ChessPiece * cp = bs->board[newpos.row][newpos.column];
-
+            if(King::isCheck(newpos))
+                return 0;
             if(cp)
             {
                 if(cp->colour != bs->board[pos->row][pos->column]->colour) // not the same team
@@ -52,7 +53,8 @@ int King::movePermitted(Position newpos)
         {
             PlaceHolder * newPosPiece = dynamic_cast<PlaceHolder*>(pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget());
             ChessPiece * cp = (ChessPiece*)pGridLayout->itemAtPosition(newpos.row,newpos.column)->widget();
-
+            if(King::isCheck(newpos))
+                return 0;
             if(!newPosPiece) // Not a placeholder
             {
                 if(cp->colour != this->colour) // not the same team
@@ -66,21 +68,19 @@ int King::movePermitted(Position newpos)
     return 0;
 }
 
-bool King::isCheck()
+bool King::isCheck(Position pos)
 {
-    /*Game * game = Game::getInstance();
-    Player * player = game->getPlayerByTurn(1); // Get player of next turn
-    Position pos = this->getPosition();
+    BoardState tempBoardState;
+    tempBoardState.clone();
+    tempBoardState.move(KING,pos);
 
-    if( player->bishop->movePermitted(pos) || player->pawn->movePermitted(pos) ) // is the position of the king a permitted move for the opponent
-    {
-        qDebug("Check");
+    if( Bishop::movePermitted(pos,&tempBoardState) || Pawn::movePermitted(pos, &tempBoardState) ) // is the position of the king a permitted move for the opponent
         return true;
-    }*/
     return false;
 }
 
-bool King::isCheckMate()
+bool King::isCheckMate(BoardState boardState)
 {
+    //TO DO
     return false;
 }
