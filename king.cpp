@@ -13,7 +13,7 @@ Position King::getPosition()
     return p->king->layoutPosition;
 }
 
-int King::movePermitted(Position newpos, BoardState * bs)
+int King::movePermitted(Position newpos, BoardState * bs, bool useCheckCondition)
 {
     Position * pos = bs->getPositionByType(KING);
     if(!pos)
@@ -26,7 +26,7 @@ int King::movePermitted(Position newpos, BoardState * bs)
         if( colOffset <= 1 && rowOffset <=1  )
         {
             ChessPiece * cp = bs->board[newpos.row][newpos.column];
-            if(King::isCheck(newpos))
+            if(useCheckCondition && King::isCheck(newpos,bs))
                 return 0;
             if(cp)
             {
@@ -68,19 +68,26 @@ int King::movePermitted(Position newpos)
     return 0;
 }
 
-bool King::isCheck(Position pos)
+bool King::isCheck(Position pos,BoardState * bs)
 {
-    BoardState tempBoardState;
-    tempBoardState.clone();
-    tempBoardState.move(KING,pos);
-
-    if( Bishop::movePermitted(pos,&tempBoardState) || Pawn::movePermitted(pos, &tempBoardState) ) // is the position of the king a permitted move for the opponent
+    if(!bs)
+    {
+        BoardState tempBoardState;
+        tempBoardState.clone();
+        bs = &tempBoardState;
+    }
+    else
+    {
+        BoardState tempBoardState;
+        tempBoardState.copy(bs);
+        bs = &tempBoardState;
+    }
+    if(King::movePermitted(pos, bs, false))
         return true;
-    return false;
-}
 
-bool King::isCheckMate(BoardState boardState)
-{
-    //TO DO
+    bs->move(KING,pos);
+
+    if( Bishop::movePermitted(pos,bs) || Pawn::movePermitted(pos, bs) ) // is the position of the king a permitted move for the opponent
+        return true;
     return false;
 }

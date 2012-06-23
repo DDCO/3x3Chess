@@ -103,9 +103,9 @@ bool BoardState::operator==(BoardState rhs)
 int BoardStateNode::countTotalPieces(Colour c)
 {
     int count = 0;
-    BoardStateNode * child = (BoardStateNode*)this->childNodeList.at(0);
-    while(child)
+    for(int i = 0; i < this->childNodeList.size(); i++)
     {
+        BoardStateNode * child = (BoardStateNode*)this->childNodeList.at(0);
         for(int row = 0; row < 3; row++)
         {
             for(int column = 0; column < 3; column++)
@@ -118,9 +118,7 @@ int BoardStateNode::countTotalPieces(Colour c)
                 }
             }
         }
-        if(!child->childNodeList.empty())
-            count+= child->countTotalPieces(c);
-        child = (BoardStateNode*)child->getNextSibling();
+        count+= child->countTotalPieces(c);
     }
     return count;
 }

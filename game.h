@@ -3,6 +3,7 @@
 
 #include "ai.h"
 #include "global.h"
+#include <qmessagebox.h>
 
 class Game
 {
@@ -16,6 +17,8 @@ public:
     Player * getPlayerByTurn(int turn = 0);
     void populateLayout();
     void close();
+    bool hasWon();
+    bool hasLost();
 private:
     Game();
     ~Game();

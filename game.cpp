@@ -33,6 +33,17 @@ void Game::swapPieces(Position pos1, Position pos2)
     Player * player = this->getPlayerByTurn();
     player->enableDrag(false);
 
+    if(this->hasWon())
+    {
+        QMessageBox::information(NULL,"Game Over","Player 1 wins",QMessageBox::Ok);
+        return;
+    }
+    if(this->hasLost())
+    {
+        QMessageBox::information(NULL,"Game Over","Player 2 wins",QMessageBox::Ok);
+        return;
+    }
+
     this->turnCount++;
 
     player = this->getPlayerByTurn();
@@ -80,10 +91,6 @@ void Game::close()
 
 void Game::populateLayout()
 {
-    //Create new players
-    //this->p1 = new Player();
-    //this->p2 = new AI();
-
     pGridLayout->addWidget(p2->bishop,0,0,Qt::AlignCenter);
     pGridLayout->addWidget(p2->pawn,0,1,Qt::AlignCenter);
     pGridLayout->addWidget(p2->king,0,2,Qt::AlignCenter);
@@ -95,9 +102,37 @@ void Game::populateLayout()
     pGridLayout->addWidget(p1->king,2,0,Qt::AlignCenter);
 
     pGridLayout->setRowMinimumHeight(1,110);
+}
 
-    /*this->p1->enableDrag(true);
-    this->p2->setupTree();*/
+bool Game::hasWon()
+{
+    BoardState currentBoardState;
+    currentBoardState.clone();
+
+    BoardState winningBoardState;
+    winningBoardState.board[0][0] = p1->bishop;
+    winningBoardState.board[0][1] = p1->pawn;
+    winningBoardState.board[1][0] = p1->king;
+    winningBoardState.board[2][2] = p2->king;
+    if(winningBoardState == currentBoardState)
+        return true;
+    return false;
+}
+
+bool Game::hasLost()
+{
+    BoardState currentBoardState;
+    currentBoardState.clone();
+
+    BoardState winningBoardState;
+    winningBoardState.board[1][1] = p2->bishop;
+    winningBoardState.board[0][1] = p2->pawn;
+    winningBoardState.board[0][2] = p2->king;
+    winningBoardState.board[2][0] = p1->king;
+    winningBoardState.board[2][1] = p1->pawn;
+    if(winningBoardState == currentBoardState)
+        return true;
+    return false;
 }
 
 Game::~Game()
