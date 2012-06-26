@@ -100,10 +100,21 @@ void AI::getAvailableMoves(Node * node, int level)
                     newNode->move(BISHOP,newpos);
                     bsn->addNode(newNode);
                 }
-
-                if(Pawn::movePermitted(newpos,(BoardState*)bsn))
+                if(bsn->isPawnPromoted)
+                {
+                    if(Bishop::movePermitted(newpos,(BoardState*)bsn,bsn->getPositionByType(PAWN)))
+                    {
+                        BoardStateNode * newNode = new BoardStateNode();
+                        newNode->copy((BoardState*)bsn);
+                        newNode->move(PAWN,newpos);
+                        bsn->addNode(newNode);
+                    }
+                }
+                else if(int returnVal = Pawn::movePermitted(newpos,(BoardState*)bsn))
                 {
                     BoardStateNode * newNode = new BoardStateNode();
+                    if( returnVal && (newpos.row % 2 == 0) )
+                        bsn->isPawnPromoted = true;
                     newNode->copy((BoardState*)bsn);
                     newNode->move(PAWN,newpos);
                     bsn->addNode(newNode);

@@ -13,11 +13,13 @@ Position Bishop::getPosition()
     return p->bishop->layoutPosition;
 }
 
-int Bishop::movePermitted(Position newpos, BoardState * bs)
+int Bishop::movePermitted(Position newpos, BoardState * bs, Position * pos)
 {
-    Position * pos = bs->getPositionByType(BISHOP);
     if(!pos)
-        return 0;
+    {
+        pos = bs->getPositionByType(BISHOP);
+        if(!pos) return 0;
+    }
 
     if( (newpos.row != pos->row) || (newpos.column != pos->column) )
     {

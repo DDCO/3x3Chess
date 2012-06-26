@@ -10,6 +10,7 @@ BoardState::BoardState()
             this->board[row][column] = 0;
         }
     }
+    this->isPawnPromoted = false;
 }
 
 void BoardState::clone()

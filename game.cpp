@@ -104,6 +104,11 @@ void Game::populateLayout()
     pGridLayout->setRowMinimumHeight(1,110);
 }
 
+bool Game::isTie()
+{
+    return false;
+}
+
 bool Game::hasWon()
 {
     BoardState currentBoardState;

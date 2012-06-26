@@ -82,12 +82,10 @@ bool King::isCheck(Position pos,BoardState * bs)
         tempBoardState.copy(bs);
         bs = &tempBoardState;
     }
-    if(King::movePermitted(pos, bs, false))
-        return true;
 
     bs->move(KING,pos);
 
-    if( Bishop::movePermitted(pos,bs) || Pawn::movePermitted(pos, bs) ) // is the position of the king a permitted move for the opponent
+    if( Bishop::movePermitted(pos,bs) || Pawn::movePermitted(pos, bs) || King::movePermitted(pos, bs, false) ) // is the position of the king a permitted move for the opponent
         return true;
     return false;
 }

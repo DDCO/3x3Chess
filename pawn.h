@@ -13,6 +13,7 @@ public:
     int movePermitted(Position);
     int getType() {return PAWN;}
     Position getPosition();
+    bool isPromotted;
 };
 
 #endif // PAWN_H

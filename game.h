@@ -19,6 +19,7 @@ public:
     void close();
     bool hasWon();
     bool hasLost();
+    bool isTie();
 private:
     Game();
     ~Game();

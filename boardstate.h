@@ -18,6 +18,7 @@ public:
     Position movePosition;
     int turnCount;
     ChessPiece * board[3][3];
+    bool isPawnPromoted;
 };
 
 class BoardStateNode : public BoardState, public Node

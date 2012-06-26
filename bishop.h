@@ -9,7 +9,7 @@ class Bishop : public ChessPiece
 
 public:
     Bishop(Colour);
-    static int movePermitted(Position, BoardState * bs = NULL);
+    static int movePermitted(Position, BoardState * bs = NULL, Position * pos = NULL);
     int movePermitted(Position);
     Position getPosition();
     int getType() {return BISHOP;}
