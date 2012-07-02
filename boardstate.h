@@ -19,6 +19,7 @@ public:
     int turnCount;
     ChessPiece * board[3][3];
     bool isPawnPromoted;
+    int countBoardPiecesByColour(Colour);
 };
 
 class BoardStateNode : public BoardState, public Node

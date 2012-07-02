@@ -4,6 +4,7 @@
 #include "ai.h"
 #include "global.h"
 #include <qmessagebox.h>
+#include <string.h>
 
 class Game
 {

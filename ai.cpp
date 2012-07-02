@@ -47,7 +47,31 @@ void AI::MaxMove()
 
 void AI::MinMove()
 {
+    int index = 0, min = 0;
+    for(int i = 0; i < this->treeRoot->childNodeList.size(); i++)
+    {
+        int points = this->EvaluateMove(this->treeRoot->childNodeList.at(i));
+        if(points < min)
+        {
+            index = i;
+            min = points;
+        }
+    }
+    //BoardStateNode * bsn1 = (BoardStateNode*)this->treeRoot;
+    BoardStateNode * bsn = (BoardStateNode*)this->treeRoot->childNodeList.at(index);
 
+    switch(bsn->movePieceType)
+    {
+        case BISHOP:
+            this->bishop->movePiece(bsn->movePosition);
+            break;
+        case PAWN:
+            this->pawn->movePiece(bsn->movePosition);
+            break;
+        case KING:
+            this->king->movePiece(bsn->movePosition);
+            break;
+    }
 }
 
 bool AI::movesAvailable()

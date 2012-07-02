@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     pGridLayout = ui->gridLayout;
+    pStatusBar = ui->statusBar;
 
     //Load Background Image
     QImage img;

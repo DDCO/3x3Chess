@@ -75,7 +75,8 @@ void BoardState::move(ChessPieceType type, Position newpos)
 {
     Position * prevPos = this->getPositionByType(type);
     this->board[newpos.row][newpos.column] = this->board[prevPos->row][prevPos->column];
-    this->board[prevPos->row][prevPos->column] = NULL;
+    if( !( (newpos.row == prevPos->row) && (newpos.column == prevPos->column) ) )
+        this->board[prevPos->row][prevPos->column] = NULL;
     this->movePieceType = type;
     this->movePosition = newpos;
     this->turnCount++;
@@ -99,6 +100,24 @@ bool BoardState::operator==(BoardState rhs)
         }
     }
     return true;
+}
+
+int BoardState::countBoardPiecesByColour(Colour c)
+{
+    int count = 0;
+    for(int row = 0; row < 3; row++)
+    {
+        for(int column = 0; column < 3; column++)
+        {
+            ChessPiece * cp = this->board[row][column];
+            if(cp)
+            {
+                if(cp->colour == c)
+                    count++;
+            }
+        }
+    }
+    return count;
 }
 
 int BoardStateNode::countTotalPieces(Colour c)

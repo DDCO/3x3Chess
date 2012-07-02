@@ -79,6 +79,7 @@
    </widget>
    <addaction name="menuGame"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionAI">
    <property name="text">
     <string>Player vs AI</string>

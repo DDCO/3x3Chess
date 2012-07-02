@@ -32,22 +32,32 @@ void Game::swapPieces(Position pos1, Position pos2)
 
     Player * player = this->getPlayerByTurn();
     player->enableDrag(false);
+    this->turnCount++;
 
     if(this->hasWon())
     {
-        QMessageBox::information(NULL,"Game Over","Player 1 wins",QMessageBox::Ok);
+        pStatusBar->showMessage("Game Over, Player 1 wins");
         return;
     }
-    if(this->hasLost())
+    else if(this->hasLost())
     {
-        QMessageBox::information(NULL,"Game Over","Player 2 wins",QMessageBox::Ok);
+        pStatusBar->showMessage("Game Over, Player 2 wins");
         return;
     }
-
-    this->turnCount++;
+    else if(this->isTie())
+    {
+        pStatusBar->showMessage("Game Over, Game ended as a tie");
+        return;
+    }
 
     player = this->getPlayerByTurn();
     player->enableDrag(true);
+
+    //Update status bar
+    std::string statusStr;
+    statusStr += (player->playerID == 1)?"[Turn: White] ":"[Turn: Black] ";
+    statusStr += (King::isCheck(player->king->layoutPosition))?"[inCheck: True]":"[inCheck: False]";
+    pStatusBar->showMessage(statusStr.c_str());
 
     if(this->p2->getType() == CPU)
     {
@@ -58,7 +68,7 @@ void Game::swapPieces(Position pos1, Position pos2)
         if(player->playerID == 2)
         {
             if(ai->movesAvailable())
-                ai->MaxMove();
+                ai->MinMove();
             else
             {
                 qDebug("Game Over");
@@ -102,10 +112,48 @@ void Game::populateLayout()
     pGridLayout->addWidget(p1->king,2,0,Qt::AlignCenter);
 
     pGridLayout->setRowMinimumHeight(1,110);
+
+    pStatusBar->showMessage("[Turn: White] [inCheck: False]");
 }
 
 bool Game::isTie()
 {
+    //return false;
+    BoardState temp;
+    temp.clone();
+
+    int whiteCount = temp.countBoardPiecesByColour(WHITE);
+    int blackCount = temp.countBoardPiecesByColour(BLACK);
+    if( (whiteCount == 1 && blackCount <= 2) || (whiteCount <= 2 && blackCount == 1) )
+        return true;
+    //if no valid moves and king is not in check
+    Position * pos = temp.getPositionByType(KING);
+    King * king = (King*)temp.board[pos->row][pos->column];
+    if(!king->isCheck(*pos,&temp))
+    {
+        // no valid moves
+        for(int row = 0; row < 3; row++)
+        {
+            for(int col = 0; col < 3; col++)
+            {
+                Position newpos;
+                newpos.row = row;
+                newpos.column = col;
+                if(King::movePermitted(newpos,&temp))
+                    return false;
+                if(Bishop::movePermitted(newpos,&temp))
+                    return false;
+                if(temp.isPawnPromoted)
+                {
+                    if(Bishop::movePermitted(newpos,&temp,temp.getPositionByType(PAWN)))
+                        return false;
+                }
+                else if(Pawn::movePermitted(newpos,&temp))
+                    return false;
+            }
+        }
+        return true;
+    }
     return false;
 }
 

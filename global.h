@@ -2,8 +2,10 @@
 #define GLOBAL_H
 
 #include <QGridLayout>
+#include <QStatusBar>
 
 extern QGridLayout * pGridLayout;
+extern QStatusBar * pStatusBar;
 
 struct Position {
     int row;
