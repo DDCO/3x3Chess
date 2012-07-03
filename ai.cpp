@@ -19,7 +19,7 @@ void AI::setupTree()
 void AI::MaxMove()
 {
     int index = 0, max = 0;
-    for(int i = 0; i < this->treeRoot->childNodeList.size(); i++)
+    for(unsigned int i = 0; i < this->treeRoot->childNodeList.size(); i++)
     {
         int points = this->EvaluateMove(this->treeRoot->childNodeList.at(i));
         if(points > max)
@@ -48,7 +48,7 @@ void AI::MaxMove()
 void AI::MinMove()
 {
     int index = 0, min = 0;
-    for(int i = 0; i < this->treeRoot->childNodeList.size(); i++)
+    for(unsigned int i = 0; i < this->treeRoot->childNodeList.size(); i++)
     {
         int points = this->EvaluateMove(this->treeRoot->childNodeList.at(i));
         if(points < min)
@@ -84,7 +84,7 @@ void AI::updateTree()
     Node * pHead = this->treeRoot;
     BoardState curState;
     curState.clone(); //clone layout
-    for(int i = 0; i < this->treeRoot->childNodeList.size(); i++)
+    for(unsigned int i = 0; i < this->treeRoot->childNodeList.size(); i++)
     {
         BoardState * pbs = (BoardState*)((BoardStateNode*)this->treeRoot->childNodeList.at(i));
         if(curState == *pbs)
@@ -156,7 +156,7 @@ void AI::getAvailableMoves(Node * node, int level)
         }
         if(!siblings->childNodeList.empty())
             this->getAvailableMoves(siblings->childNodeList.at(0),++level);
-    }while(siblings = siblings->getNextSibling());
+    }while( (siblings = siblings->getNextSibling()) );
 }
 
 int AI::EvaluateMove(Node * node)

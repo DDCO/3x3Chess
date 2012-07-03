@@ -35,7 +35,8 @@ void DragableLabel::mouseMoveEvent(QMouseEvent *event)
     drag->setPixmap(QPixmap::fromImage(this->img));
     drag->setMimeData(mimeData);
 
-    Qt::DropAction dropAction = drag->exec();
+    drag->exec();
+    //Qt::DropAction dropAction = drag->exec();
     //drag->start(); //either one works
 }
 

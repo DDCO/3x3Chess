@@ -123,7 +123,7 @@ int BoardState::countBoardPiecesByColour(Colour c)
 int BoardStateNode::countTotalPieces(Colour c)
 {
     int count = 0;
-    for(int i = 0; i < this->childNodeList.size(); i++)
+    for(unsigned int i = 0; i < this->childNodeList.size(); i++)
     {
         BoardStateNode * child = (BoardStateNode*)this->childNodeList.at(0);
         for(int row = 0; row < 3; row++)

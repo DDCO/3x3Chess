@@ -52,7 +52,7 @@ void Node::setPreviousSibling(Node* node)
 int Node::childrenCount()
 {
     int count = 0;
-    for(int i = 0; i < this->childNodeList.size(); i++)
+    for(unsigned int i = 0; i < this->childNodeList.size(); i++)
     {
         count++; // count itself then children
         count+= this->childNodeList.at(i)->childrenCount();
