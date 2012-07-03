@@ -2,9 +2,9 @@
 
 Node::Node()
 {
-    this->parentNode = __null;
-    this->nextSibling = __null;
-    this->previousSibling = __null;
+    this->parentNode = NULL;
+    this->nextSibling = NULL;
+    this->previousSibling = NULL;
 }
 
 void Node::addNode(Node * node)

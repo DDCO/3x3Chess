@@ -29,11 +29,14 @@ void MainWindow::slotAIAction()
         game->close();
         game = Game::getInstance();
     }
-    game->p1 = new Player();
-    game->p2 = new AI();
-    game->populateLayout();
-    game->p1->enableDrag(true);
-    ((AI*)game->p2)->setupTree();
+    if(ui->gridLayout->isEmpty())
+    {
+        game->p1 = new Player();
+        game->p2 = new AI();
+        game->populateLayout();
+        game->p1->enableDrag(true);
+        ((AI*)game->p2)->setupTree();
+    }
 }
 
 void MainWindow::slotPlayerAction()
@@ -44,10 +47,13 @@ void MainWindow::slotPlayerAction()
         game->close();
         game = Game::getInstance();
     }
-    game->p1 = new Player();
-    game->p2 = new Player();
-    game->populateLayout();
-    game->p1->enableDrag(true);
+    if(ui->gridLayout->isEmpty())
+    {
+        game->p1 = new Player();
+        game->p2 = new Player();
+        game->populateLayout();
+        game->p1->enableDrag(true);
+    }
 }
 
 MainWindow::~MainWindow()
