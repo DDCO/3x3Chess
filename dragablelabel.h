@@ -2,6 +2,8 @@
 #define DRAGABLELABEL_H
 
 #include <QLabel>
+#include <QDrag>
+#include <QMimeData>
 #include <QMouseEvent>
 #include <vector>
 #include <QImage>
